@@ -1,9 +1,2 @@
 /build/
 /nbproject/private/
-/src/
-/test/
-/nbproject/
-build.xml
-manifest.mf
-.classpath
-.project

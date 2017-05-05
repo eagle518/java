@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="lib" path="dist/Genelet.jar"/>
+	<classpathentry kind="lib" path="dist/lib/args4j-2.32.jar"/>
+	<classpathentry kind="lib" path="dist/lib/easymock-3.3.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/javaee-api-7.0.jar"/>
+	<classpathentry kind="lib" path="dist/lib/mysql-connector-java-5.1.35-bin.jar"/>
+	<classpathentry kind="lib" path="dist/lib/sqlite-jdbc-3.16.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
