@@ -58,6 +58,7 @@ public class GeneConfig {
 "\n        \"Issuers\" : {" +
 "\n            \"plain\" : {" +
 "\n                \"Default\" : true," +
+"\n                \"Out_pars\": [\"login\"]," +
 "\n                \"Credential\" : [\"login\", \"passwd\", \"direct\", \"cadmin\"]," +
 "\n                \"Provider_pars\": {\"Def_login\":\"hello\", \"Def_password\":\"world\"}" +
 "\n            }" +
@@ -80,14 +81,9 @@ public class GeneConfig {
 "\n    <servlet-class>" + gh.proj + "." + upper+"Servlet</servlet-class>" +
 "\n</servlet>" +
 "\n<servlet-mapping>" +
-"\n    <servlet-name>"+upper+"Servlet</servlet-name>" +
-"\n    <url-pattern>/"+gh.scri+"/*</url-pattern>" +
+"\n    <servlet-name>" + gh.proj + "</servlet-name>" +
+"\n    <url-pattern>/" + gh.scri + "/*</url-pattern>" +
 "\n</servlet-mapping>" +
-"\n<session-config>" +
-"\n    <session-timeout>" +
-"\n        30" +
-"\n    </session-timeout>" +
-"\n</session-config>" +
 "\n<listener>" +
 "\n    <listener-class>"+gh.proj+"."+upper+"ServletListener</listener-class>" +
 "\n</listener>" +
@@ -99,7 +95,11 @@ public class GeneConfig {
 "\n    <param-name>jdbc.type</param-name>" +
 "\n    <param-value>" + driver + "</param-value>" +
 "\n</context-param>" +
-
+"\n<jsp-config>" +
+"\n    <jsp-property-group>" +
+"\n        <url-pattern>*.html</url-pattern>" +
+"\n    </jsp-property-group>" +
+"\n</jsp-config>" +
 "\n</web-app>";
     }
 }

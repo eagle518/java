@@ -19,10 +19,10 @@ import java.util.Map;
  */
 
 public class GeneletModel extends Crud {
-    private Map<String,Object> ARGS;
-    private List<Map<String,Object>> LISTS;
-    private Map<String,Object> OTHER;
-    private Map<String,Object> STORAGE;
+    public Map<String,Object> ARGS;
+    public List<Map<String,Object>> LISTS;
+    public Map<String,Object> OTHER;
+    public Map<String,Object> STORAGE;
 
     public String SORTBY;
     public String SORTREVERSE;

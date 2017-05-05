@@ -95,14 +95,14 @@ public class Dbi {
 
     
     public Error select_sql_label(List<Map<String,Object>> lists, String sql, List<String> labels, Object... args) throws SQLException {
-        
+
         PreparedStatement sth = getDBH().prepareStatement(sql);
         if (args != null) {
             for (int i=0; i<args.length; i++) {
                 sth.setObject(i+1, args[i]);
             }
         }
-        
+
         ResultSet rs = sth.executeQuery();
         ResultSetMetaData rsmd = rs.getMetaData();
         int columnCount;
@@ -115,6 +115,7 @@ public class Dbi {
                 labels.add(rsmd.getColumnName(i));
             }
         }
+
         while (rs.next()) {
             Map<String,Object> obj = new HashMap<>();
             for (int i=1; i<=columnCount; i++) {

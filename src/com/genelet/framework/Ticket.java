@@ -42,30 +42,24 @@ public class Ticket extends Access {
             if (found == null) { return new Error("404"); }
             setUri(found.getValue());
         }
-        
-System.err.println("AAAA");
+
         Role role = get_role();
         Issuer issuer = get_issuer();
-        System.err.println(issuer);
         System.err.println(issuer.getCredential());
-        if (issuer != null && issuer.getCredential() != null) {
+        if (issuer != null && issuer.getCredential().size() > 2) {
             if (request.getParameter(issuer.getCredential().get(2))!=null) {
                 return handler_login();
             }
         }
 
-        System.err.println("CCCC");
         if (found == null) {
-            System.err.println("DDD");
             return login_page(1036);
         }
 
         String errstr = request.getParameter(config.getGo_err_name());
-        System.err.println(errstr);
         if (errstr != null) {
             return login_page(Integer.parseInt(errstr));
         }
-System.err.println("BBBBB");
         return handler_login();
     }
     
@@ -120,9 +114,6 @@ System.err.println("BBBBB");
     }
     
     public Error authenticate(String login, String password, String url) {
-        System.err.println(login);
-        System.err.println(password);
-        System.err.println(url);
         if (login==null || "".equals(login) || password==null || "".equals(password)) { return new Error("1037"); }
         Issuer issuer = get_issuer();
         if (!login.equals(issuer.getProvider_pars().get("Def_login")) || !password.equals(issuer.getProvider_pars().get("Def_password"))) {
@@ -150,7 +141,7 @@ System.err.println("BBBBB");
             return null;
         }
         
-        request.setAttribute("err_code", Integer.toString(error_code));
+        request.setAttribute("error_code", Integer.toString(error_code));
         request.setAttribute("Login_name", config.getLogin_name());
         request.setAttribute("Go_uri_name", config.getGo_uri_name());
         request.setAttribute("go_uri", uri);

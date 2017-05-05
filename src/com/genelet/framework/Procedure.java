@@ -31,17 +31,21 @@ public class Procedure extends Ticket {
     
     public Error run_sql(String call_name, Object... in_vals) {
         List<String> out_pars = get_issuer().getOut_pars();
+        if (out_pars.isEmpty()) {
+            out_pars = get_role().getAttributes();
+        }
         out_hash = new HashMap<>();        
         try {                          
             Dbi dbi =  new Dbi();
             dbi.setDBH(DBH);
-            Error err = (call_name.matches("^select")) ?
+            Error err = (call_name.toUpperCase().matches("^SELECT (.*)")) ?
                     dbi.get_sql_label(out_hash, call_name, out_pars, in_vals)
                     : dbi.do_proc(out_hash, out_pars, call_name, in_vals);
             if (err != null) { return new Error("1036" + err.toString()); }
         } catch (SQLException ex) {
             Logger.getLogger(Procedure.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         if (out_hash.isEmpty()) { return new Error("1031"); }
         if (out_hash.get(out_pars.get(0)) == null) { return new Error("1032"); }
 
@@ -68,6 +72,8 @@ public class Procedure extends Ticket {
         Error err = run_sql(get_issuer().getSql(), login, password);
         if (err != null) { return err; }       
         String first = get_role().getAttributes().get(0);
+        System.err.print("first one is ");
+        System.err.println(first);
         if (!out_hash.containsKey(first) || out_hash.get(first)==null) {
             return new Error("1032");
         }

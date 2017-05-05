@@ -51,7 +51,7 @@ public class GeneletServlet extends HttpServlet {
             Connection dbh = null;
             List<String> db = gate.config.getDb();
             try {
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName((String) getServletContext().getAttribute("jdbctype"));
                 dbh = DriverManager.getConnection(db.get(0), db.get(1), db.get(2));
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(GeneletServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +75,6 @@ public class GeneletServlet extends HttpServlet {
     public void processRequest(HttpServletRequest r, HttpServletResponse w) throws ServletException, IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException, Exception { 
         System.err.println("\n\nNew Request: " + r.getRequestURL() + "?" + r.getQueryString());
         Config c = new Config((String) getServletContext().getAttribute("configfile"));
-        System.err.println(c);
         Gate gate = new Gate(c, r, w, "", "");
 
         int length = c.getScript_name().length();
@@ -165,7 +164,7 @@ public class GeneletServlet extends HttpServlet {
         System.err.println("Filter initialized");
                 
         List<String> fk = null;
-        if (!gate.get_role().getIs_admin()) {
+        if (gate.security != null && !gate.get_role().getIs_admin()) {
             Map<String,List<String>> fks = (Map<String,List<String>>) Invoke.invokeGet(filterClass, filter, "getFks");
             if (fks.containsKey(who)) { fk = fks.get(who); }
         }
