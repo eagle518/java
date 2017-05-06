@@ -27,6 +27,7 @@ public class GeneClass {
 "\n" +
 "\nimport "+proj+"."+firstUpper()+"Filter;" +
 "\nimport java.util.HashMap;" +
+"\nimport java.util.Arrays;" +
 "\nimport java.util.List;" +
 "\nimport java.util.Map;" +
 "\n" +
@@ -36,7 +37,7 @@ public class GeneClass {
 "\n        {" +
 "\n            put(\"startnew\", new HashMap<String, List<String>>(){" +
 "\n                {" +
-"\n                    put(\"options\", AL(\"no_db\", \"no_method\"));";
+"\n                    put(\"options\", Arrays.asList(\"no_db\", \"no_method\"));";
         if (!"".equals(groups)) {
             str += "\n                    put(" + groups + ");";
         }
@@ -45,22 +46,22 @@ public class GeneClass {
 "\n            });" +
 "\n            put(\"insert\", new HashMap<String, List<String>>(){" +
 "\n                {" +
-"\n                    put(\"validate\", AL(\""+ String.join("\",\"", nons) + "\"));" +
+"\n                    put(\"validate\", Arrays.asList(\""+ String.join("\",\"", nons) + "\"));" +
 "\n                 }" +
 "\n             });" +
 "\n            put(\"edit\", new HashMap<String, List<String>>(){" +
 "\n                {" +
-"\n                    put(\"validate\", AL(\"" + pk + "\"));" +
+"\n                    put(\"validate\", Arrays.asList(\"" + pk + "\"));" +
 "\n                }" +
 "\n             });" +
 "\n            put(\"update\", new HashMap<String, List<String>>(){" +
 "\n                {" +
-"\n                    put(\"validate\", AL(\"" + pk + "\"));" +
+"\n                    put(\"validate\", Arrays.asList(\"" + pk + "\"));" +
 "\n                 }" +
 "\n             });" +
 "\n            put(\"delete\", new HashMap<String, List<String>>(){" +
 "\n                {" +
-"\n                    put(\"validate\", AL(\"" + pk + "\"));" +
+"\n                    put(\"validate\", Arrays.asList(\"" + pk + "\"));" +
 "\n                }" +
 "\n           });" +
 "\n            put(\"topics\", new HashMap<>());" +
@@ -80,13 +81,14 @@ public class GeneClass {
 "\n" +
 "\nimport "+proj+"."+firstUpper()+"Model;"+
 "\nimport java.sql.SQLException;" +
+"\nimport java.util.Arrays;" +              
 "\nimport java.util.ArrayList;" +
 "\nimport java.util.List;" +
 "\nimport java.util.Map;" +
 "\n" +
 "\npublic class Model extends "+firstUpper()+"Model {" +
 "\npublic Model() {" +
-"\n        List<String> adds = AL(\"" + String.join("\",\"", fields) + "\");" +
+"\n        List<String> adds = Arrays.asList(\"" + String.join("\",\"", fields) + "\");" +
 "\n    insert_pars = new ArrayList<>(adds);";
         if ("".equals(ak)) { 
             str += "\n    insert_pars.add(\"" + pk + "\");";
@@ -145,11 +147,8 @@ public class GeneClass {
         return "package "+proj+";" +
 "\n"+
 "\nimport com.genelet.framework.GeneletFilter;" +
-"\nimport java.util.ArrayList;" + 
-"\nimport java.util.List;" +
 "\n" +
 "\npublic class "+firstUpper()+"Filter extends GeneletFilter {" +
-"\n" + al() +
 "\n}";
     }
     
@@ -157,8 +156,6 @@ public class GeneClass {
         return "package "+proj+";"+
 "\n" +
 "\nimport com.genelet.framework.GeneletModel;" +
-"\nimport java.util.ArrayList;" +
-"\nimport java.util.List;" +
 "\n" +
 "\npublic class "+firstUpper()+"Model extends GeneletModel {" +
 "\n   public " + firstUpper()+"Model() {" +
@@ -173,19 +170,9 @@ public class GeneClass {
 "\n    this.EMPTIES     =\"empties\";" +
 "\n    this.total_force = 0;" +
 "\n   }" +
-"\n" + al() +    
 "\n}";
     }
 
-    String al() {
-        return "    public static List<String> AL(String ... elements) {" +
-"\n       List<String> list = new ArrayList<>();" + 
-"\n       for (String element : elements) {" +
-"\n           list.add(element);" +
-"\n       }" +
-"\n       return list;" +
-"\n   }";
-    }
 
     String firstUpper() {
         return GeneHelp.firstUpper(proj);

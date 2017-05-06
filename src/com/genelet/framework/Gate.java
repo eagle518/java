@@ -103,7 +103,13 @@ public class Gate extends Access {
         
         String escaped = "";
         try {
-            escaped = URLEncoder.encode(request.getRequestURI(), "UTF-8");
+            String q = request.getQueryString();
+            if ("".equals(q)) {
+                q = request.getRequestURI();
+            } else {
+                q = request.getRequestURI() + "?" + q;
+            }
+            escaped = URLEncoder.encode(q, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(Gate.class.getName()).log(Level.SEVERE, null, ex);
         }
