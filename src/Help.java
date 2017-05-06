@@ -95,28 +95,28 @@ public class Help {
                 gh.write_it(firstUpper(proj)+"ServletListener.java", cls.listener());
             }
         
-            if (chdir(root+"/web/admin")) {
+            if (chdir(root+"/web/WEB-INF/views/admin")) {
                 gh.write_it("login.html", jsp.login());
             }
 
-            if (chdir(root+"/www") && gh.angular) {
+            if (chdir(root+"/web") && gh.angular) {
                 gh.write_it("index.html", ag.index());
                 gh.write_it("init.js", ag.init());
                 //gh.write_it("genelet.js", ag.ag_geneletjs());
             }
         
-            if (chdir(root+"/www/admin") && gh.angular) {
+            if (chdir(root+"/web/admin") && gh.angular) {
                 gh.write_it("header.html", ag.header(ag.bar()));
                 gh.write_it("footer.html", "");
                 gh.write_it("login.html", ag.login());
             }
         
-            if (chdir(root+"/www/public") && gh.angular) {
+            if (chdir(root+"/web/public") && gh.angular) {
                 gh.write_it("header.html", ag.header(""));
                 gh.write_it("footer.html", "");
             }
         
-            if (chdir(root+"/www/public/"+ag.tables.get(0)) && gh.angular) {
+            if (chdir(root+"/web/public/"+ag.tables.get(0)) && gh.angular) {
                 gh.write_it("startnew.html", ag.rolepublic());
             }
         
@@ -141,24 +141,22 @@ public class Help {
                     gh.write_it("Model.java", cls.obj_model(t, pk, ak, fields));
                 }
 
-                if (i==0 && chdir(root+"/web/public/"+t.replace("_",""))) {
-                    gh.write_it("dashboard.html", jsp.topics(t, ak, pk, fields));
+                if (i==0 && chdir(root+"/web/WEB-INF/views/public/"+t.replace("_",""))) {
+                    gh.write_it("topics.html", jsp.topics(t, ak, pk, fields));
                 }
                                 
-                if (chdir(root+"/web/admin/"+t.replace("_",""))) {
+                if (chdir(root+"/web/WEB-INF/views/admin/"+t.replace("_",""))) {
                     gh.write_it("insert.html", jsp.top()+"<h3>Added</h3>"  +jsp.bottom());
                     gh.write_it("delete.html", jsp.top()+"<h3>Deleted</h3>"+jsp.bottom());
                     gh.write_it("update.html", jsp.top()+"<h3>Updated</h3>"+jsp.bottom());
                     gh.write_it("startnew.html",jsp.startnew(t, pk, nons, fields));
                     gh.write_it("topics.html",    jsp.topics(t, ak, pk, fields));
-                    gh.write_it("dashboard.html", jsp.topics(t, ak, pk, fields));
                     gh.write_it("edit.html",        jsp.edit(t, pk, fields));
                 }
             
-                if (chdir(root+"/www/admin/"+t) && gh.angular) {
+                if (chdir(root+"/web/admin/"+t) && gh.angular) {
                     gh.write_it("startnew.html", ag.startnew(t, pk, nons, fields));
                     gh.write_it("topics.html",     ag.topics(t, pk, fields));
-                    gh.write_it("dashboard.html",  ag.topics(t, pk, fields));
                     gh.write_it("edit.html",         ag.edit(t, pk, fields));
                 }
                 

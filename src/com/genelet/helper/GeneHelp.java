@@ -212,22 +212,22 @@ public class GeneHelp {
  
         dirs.add(root+"/src/"+proj);
         dirs.add(root+"/web");
-        dirs.add(root+"/web/admin");
-        dirs.add(root+"/web/public");
-        dirs.add(root+"/web/public/"+tables.get(0).replace("_",""));
         dirs.add(root+"/web/WEB-INF");
+        dirs.add(root+"/web/WEB-INF/views");
+        dirs.add(root+"/web/WEB-INF/views/admin");
+        dirs.add(root+"/web/WEB-INF/views/public");
+        dirs.add(root+"/web/WEB-INF/views/public"+tables.get(0).replace("_",""));
         if (angular) {
-            dirs.add(root+"/www");
-            dirs.add(root+"/www/admin");
-            dirs.add(root+"/www/public");
-            dirs.add(root+"/www/public/"+tables.get(0));
+            dirs.add(root+"/web/admin");
+            dirs.add(root+"/web/public");
+            dirs.add(root+"/web/public/"+tables.get(0));
         }
         
         for (String v : tables) {
             dirs.add(root+"/src/"+proj+"/"+v.replace("_",""));
-            dirs.add(root+"/web/admin/"+v.replace("_",""));
+            dirs.add(root+"/web/WEB-INF/views/admin/"+v.replace("_",""));
             if (angular) {
-                dirs.add(root+"/www/admin/"+v.replace("_",""));
+                dirs.add(root+"/web/admin/"+v.replace("_",""));
             }
         }
         

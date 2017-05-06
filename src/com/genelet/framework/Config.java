@@ -74,7 +74,7 @@ public class Config {
         this.Tag_name = json.getString("Tag_name", "tag");
         this.Provider_name = json.getString("Provider_name", "provider");
         this.Callback_name = json.getString("Callbakc_name", "callback");
-        this.Default_action = json.getString("Default_action", "dashboard");
+        this.Default_action = json.getString("Default_action", "topics");
         this.Document_root = json.getString("Document_root");
         this.Script_name = json.getString("Script_name");
         this.Project_name = json.getString("Project_name","");

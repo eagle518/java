@@ -21,7 +21,7 @@ public class GeneConfig {
 "\n\"Document_root\" : \"" + gh.root + "/web\"," +
 "\n\"Project_name\"  : \"" + gh.proj + "\"," +
 "\n\"Script_name\"   : \"/" + gh.scri + "\"," +
-"\n\"Template\"      : \"\"," +
+"\n\"Template\"      : \"/WEB-INF/views\"," +
 "\n\"Pubrole\"       : \"public\"," +
 "\n\"Secret\"        : \"sf09i51jlbnd0324e;fn 34091A3i5i13vtnsdkvn akUIUUIHKJHV\"," +
 "\n\"Chartags\"      : {" +

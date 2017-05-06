@@ -52,7 +52,7 @@ public class ViewJsp {
     
     public String index() {
         return top0() + 
-                "<h4><a href=\"/" + scri + "/admin/html/" + tables.get(0).replace("_", "") + "?action=dashboard\">Enter Admin (Server Side)</a></h4>" + 
+                "<h4><a href=\"/" + scri + "/admin/html/" + tables.get(0).replace("_", "") + "?action=topics\">Enter Admin (Server Side)</a></h4>" + 
                 bottom();
     }
         
