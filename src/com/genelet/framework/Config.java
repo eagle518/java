@@ -34,7 +34,7 @@ public class Config {
     private String Document_root;
     private String Script_name;
     private String Action_name;
-    private String Default_action;
+    private HashMap<String,String> Default_actions;
     private String Role_name;
     private String Tag_name;
     private String Provider_name;
@@ -74,7 +74,12 @@ public class Config {
         this.Tag_name = json.getString("Tag_name", "tag");
         this.Provider_name = json.getString("Provider_name", "provider");
         this.Callback_name = json.getString("Callbakc_name", "callback");
-        this.Default_action = json.getString("Default_action", "topics");
+        this.Default_actions = new HashMap<String,String>() {{ 
+            put("GET", "topics");
+            put("GET_item","edit");
+            put("PUT","update");
+            put("POST", "insert");
+            put("DELETE", "delete"); }};
         this.Document_root = json.getString("Document_root");
         this.Script_name = json.getString("Script_name");
         this.Project_name = json.getString("Project_name","");
@@ -87,6 +92,14 @@ public class Config {
         
         this.Db = getList(json, "Db");
         this.Static = getListList(json, "Static");
+        
+        JsonObject actions = json.getJsonObject("Default_actions");
+        if (actions != null && !actions.isEmpty()) {
+            Set<String>keys = actions.keySet();
+            keys.stream().forEach((key) -> {
+                this.Default_actions.put(key, actions.getString(key));
+            });
+        }
 
         JsonObject chartags = json.getJsonObject("Chartags");
         if (chartags!=null && !chartags.isEmpty()) {
@@ -242,15 +255,15 @@ public class Config {
     /**
      * @return the Default_action
      */
-    public String getDefault_action() {
-        return Default_action;
+    public HashMap<String,String> getDefault_actions() {
+        return Default_actions;
     }
 
     /**
-     * @param Default_action the Default_action to set
+     * @param Default_actions the Default_actions to set
      */
-    public void setDefault_action(String Default_action) {
-        this.Default_action = Default_action;
+    public void setDefault_actions(HashMap<String,String> Default_actions) {
+        this.Default_actions = Default_actions;
     }
 
     /**

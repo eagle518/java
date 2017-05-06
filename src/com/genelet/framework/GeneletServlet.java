@@ -85,7 +85,9 @@ public class GeneletServlet extends HttpServlet {
             return;
         }
         String[] path_info = URIPath.substring(length+1).split("/");
-        if (path_info.length != 3) {
+        if (path_info.length == 4 && "GET".equals(r.getMethod())) {
+            r.setAttribute("_gid_url", path_info[3]);
+        } else if (path_info.length != 3) {
             w.sendError(400); // bad request
         } 
         
@@ -144,6 +146,9 @@ public class GeneletServlet extends HttpServlet {
             } else {
                 ARGS.put((String) entry.getKey(), var[0]);
             }
+        }
+        if (gate.request.getAttribute("_gid_url") != null) {
+            ARGS.put("_gid_url", gate.request.getAttribute("_gid_url"));
         }
         
         ARGS.put("g_role", who);
@@ -257,7 +262,13 @@ public class GeneletServlet extends HttpServlet {
     public String get_action(Gate gate, Map<String,Map<String,List<String>>> actions) {
         String action_name = gate.config.getAction_name();
         String name = gate.request.getParameter(action_name);
-        if (name==null) { name = gate.config.getDefault_action(); }
+        if (name==null) { 
+            String method = gate.request.getMethod();
+            if ("GET".equals(method) && null != gate.request.getAttribute("_gid_url")) {
+                method = "GET_item";
+            }
+            name = gate.config.getDefault_actions().get(method);
+        }
         if (actions.containsKey(name)) {
             return name;
         }

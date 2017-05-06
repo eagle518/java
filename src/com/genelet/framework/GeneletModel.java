@@ -168,6 +168,10 @@ public class GeneletModel extends Crud {
     public Error edit(List<Map<String,Object>> extras) throws SQLException, Exception {
         Map<String,Object>extra = new HashMap<>();
         if (!extra.isEmpty()) { extra = (Map<String, Object>) extras.get(0); }
+        
+        if (ARGS.containsKey("_gid_url")) {
+            ARGS.put(this.current_key, ARGS.get("_gid_url"));
+        }
         List<Object> val = get_id_val(extra);
         if (val == null) { return new Error("1040"); }
         Object id = val.get(0);

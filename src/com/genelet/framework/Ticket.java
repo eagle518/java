@@ -148,7 +148,8 @@ public class Ticket extends Access {
         request.setAttribute("Login_field", issuer.getCredential().get(0));
         request.setAttribute("Password_field", issuer.getCredential().get(1));
         
-        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/"+role_value+"/"+config.getLogin_name()+"."+chartag_value); 
+        RequestDispatcher dispatcher; 
+        dispatcher = request.getServletContext().getRequestDispatcher(config.getTemplate()+"/"+role_value+"/"+config.getLogin_name()+"."+chartag_value);
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException ex) {
