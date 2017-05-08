@@ -216,7 +216,7 @@ public class GeneHelp {
         dirs.add(root+"/web/WEB-INF/views");
         dirs.add(root+"/web/WEB-INF/views/admin");
         dirs.add(root+"/web/WEB-INF/views/public");
-        dirs.add(root+"/web/WEB-INF/views/public"+tables.get(0).replace("_",""));
+        dirs.add(root+"/web/WEB-INF/views/public/"+tables.get(0).replace("_",""));
         if (angular) {
             dirs.add(root+"/web/admin");
             dirs.add(root+"/web/public");

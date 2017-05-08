@@ -134,7 +134,7 @@ public class Help {
                         
                 if (chdir(root+"/src/"+proj+"/"+t.replace("_",""))) {
                     if (i==0) {
-                        gh.write_it("Filter.java", cls.obj_filter(t, pk, nons, "\"groups\", AL(\"public\")"));
+                        gh.write_it("Filter.java", cls.obj_filter(t, pk, nons, "\"groups\", Arrays.asList(\"public\")"));
                     } else {
                         gh.write_it("Filter.java", cls.obj_filter(t, pk, nons, ""));
                     }

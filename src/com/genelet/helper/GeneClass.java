@@ -65,7 +65,6 @@ public class GeneClass {
 "\n                }" +
 "\n           });" +
 "\n            put(\"topics\", new HashMap<>());" +
-"\n            put(\"dashboard\", new HashMap<>());" +
 "\n        }" +
 "\n    });" +
 "\n" +    
