@@ -123,6 +123,10 @@ public class GeneClass {
     public String listener() {
         String str = "package "+proj+";"+
 "\n" +
+"\nimport com.genelet.framework.Config;" +
+"\nimport java.io.IOException;" +
+"\nimport java.util.logging.Level;" +
+"\nimport java.util.logging.Logger;" +
 "\nimport javax.servlet.ServletContext;" +
 "\nimport javax.servlet.ServletContextEvent;" +
 "\nimport javax.servlet.ServletContextListener;" +
@@ -131,9 +135,15 @@ public class GeneClass {
 "\n  public void contextInitialized(ServletContextEvent event) {" +
 "\n    ServletContext sc = event.getServletContext();" +
 "\n    System.err.println(sc.getInitParameter(\"config.filename\"));" +
+"\n    String f = (String) sc.getInitParameter(\"config.filename\");" +
+"\n    try {" +
+"\n        Config config = new Config(f);" +
+"\n        sc.setAttribute(\"config\", config);" +
+"\n    } catch (IOException ex) {" +
+"\n        Logger.getLogger(MyprojectServletListener.class.getName()).log(Level.SEVERE, null, ex);" +
+"\n    }" +                     
+"\n    sc.setAttribute(\"jdbctype\", sc.getInitParameter(\"jdbc.type\"));" + 
 "\n    System.err.println(\"Genelet Server Starts ...\");" +
-"\n    sc.setAttribute(\"configfile\", sc.getInitParameter(\"config.filename\"));" +
-"\n    sc.setAttribute(\"jdbctype\", sc.getInitParameter(\"jdbc.type\"));" +               
 "\n   }" +
 "\n" +
 "\n   @Override" +

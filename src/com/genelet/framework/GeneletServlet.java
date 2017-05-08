@@ -74,7 +74,8 @@ public class GeneletServlet extends HttpServlet {
     
     public void processRequest(HttpServletRequest r, HttpServletResponse w) throws ServletException, IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException, Exception { 
         System.err.println("\n\nNew Request: " + r.getRequestURL() + "?" + r.getQueryString());
-        Config c = new Config((String) getServletContext().getAttribute("configfile"));
+        //Config c = new Config((String) getServletContext().getAttribute("configfile"));
+        Config c = (Config) getServletContext().getAttribute("config");
         Gate gate = new Gate(c, r, w, "", "");
 
         int length = c.getScript_name().length();
