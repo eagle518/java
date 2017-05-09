@@ -89,7 +89,7 @@ public class GeneConfig {
 "\n</listener>" +
 "\n<context-param>" +
 "\n    <param-name>config.filename</param-name>" +
-"\n    <param-value>" + gh.root + "/web/WEB-INF/"+gh.scri+ ".json</param-value>" +
+"\n    <param-value>" + gh.root + "/web/WEB-INF/config.json</param-value>" +
 "\n</context-param>" +
 "\n<context-param>" +
 "\n    <param-name>jdbc.type</param-name>" +

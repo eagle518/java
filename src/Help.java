@@ -84,7 +84,7 @@ public class Help {
             }
         
             if (chdir(root+"/web/WEB-INF")) {
-                gh.write_it(scri+".json", cnf.config());
+                gh.write_it("config.json", cnf.config());
                 gh.write_it("web.xml", cnf.xml());
             }
 

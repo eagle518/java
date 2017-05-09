@@ -100,10 +100,6 @@ public class GeneClass {
 "\n    current_id_auto= \"" + pk + "\";" +
 "\n}" +
 "\n" +
-"\n   public Error dashboard(List<Map<String,Object>> extras) throws SQLException, Exception {" +
-"\n       return topics(extras);" +
-"\n   }" +
-"\n" +
 "\n}";
         return str;
     }
