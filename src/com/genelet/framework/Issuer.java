@@ -28,10 +28,10 @@ public class Issuer {
         this.Sql_as = v.getString("Sql_as","");
         this.Default= v.getBoolean("Default",false);
         this.Screen = v.getInt("Screen",0);
-        this.Credential = Config.getList(v, "Credential");
-        this.In_pars = Config.getList(v, "In_pars");
-        this.Out_pars = Config.getList(v, "Out_pars");
-        this.Provider_pars = Config.getMap(v, "Provider_pars");
+        this.Credential = Config.getList(v.getJsonArray("Credential"));
+        this.In_pars = Config.getList(v.getJsonArray("In_pars"));
+        this.Out_pars = Config.getList(v.getJsonArray("Out_pars"));
+        this.Provider_pars = Config.getMap(v.getJsonObject("Provider_pars"));
     }
     
     /**

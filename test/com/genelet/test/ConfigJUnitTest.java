@@ -10,6 +10,7 @@ import com.genelet.framework.Chartag;
 import com.genelet.framework.Config;
 import com.genelet.framework.Role;
 import com.genelet.framework.Issuer;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
@@ -29,7 +30,7 @@ public class ConfigJUnitTest {
     Config c;
     public ConfigJUnitTest() {
         try {
-            c = new Config("C:\\Users\\greet_000\\Desktop\\golang\\src\\genelet\\peter.conf");
+            c = new Config(System.getProperty("user.home")+"/Documents/NetBeansProjects/Genelet/test/com/genelet/test/config.json");
         } catch (IOException ex) {
             Logger.getLogger(ConfigJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -134,11 +134,12 @@ public class Help {
                         
                 if (chdir(root+"/src/"+proj+"/"+t.replace("_",""))) {
                     if (i==0) {
-                        gh.write_it("Filter.java", cls.obj_filter(t, pk, nons, "\"groups\", Arrays.asList(\"public\")"));
+                        gh.write_it("component.json", cls.obj_json(t, pk, ak, nons, fields, ", \"groups\" : [\"public\"]"));
                     } else {
-                        gh.write_it("Filter.java", cls.obj_filter(t, pk, nons, ""));
+                        gh.write_it("component.json", cls.obj_json(t, pk, ak, nons, fields, ""));
                     }
-                    gh.write_it("Model.java", cls.obj_model(t, pk, ak, fields));
+                    gh.write_it("Filter.java", cls.obj_filter(t));
+                    gh.write_it("Model.java", cls.obj_model(t));
                 }
 
                 if (i==0 && chdir(root+"/web/WEB-INF/views/public/"+t.replace("_",""))) {

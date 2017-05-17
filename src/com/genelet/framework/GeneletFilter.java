@@ -7,6 +7,7 @@ package com.genelet.framework;
 
 import java.util.List;
 import java.util.Map;
+import javax.json.JsonObject;
 
 /**
  *
@@ -22,6 +23,17 @@ public class GeneletFilter extends Base {
     public GeneletFilter() {
         super();
     }  
+    
+    public GeneletFilter(Object obj) {
+        super();
+        JsonObject item = (JsonObject) obj;
+        if (item.containsKey("fks")) {
+            this.fks = Config.getMapList(item.getJsonObject("fks"));
+        }
+        if (item.containsKey("actions")) {
+            this.actions = Config.getMapMapList(item.getJsonObject("actions"));
+        }
+    }
     
     public void initialize(Gate gate, String action, String component, Map<String, Object>ARGS) {
         this.action=action;
@@ -96,6 +108,7 @@ public class GeneletFilter extends Base {
      * @return the actions
      */
     public Map<String,Map<String,List<String>>> getActions() {
+        
         return actions;
     }
 

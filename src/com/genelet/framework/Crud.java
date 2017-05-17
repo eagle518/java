@@ -17,8 +17,8 @@ import java.util.Set;
  * @author Peter
  */
 public class Crud extends Dbi {
-    protected String current_table;
-    protected List<Table> current_tables;
+    public String current_table;
+    public List<Table> current_tables;
 
     /**
      *

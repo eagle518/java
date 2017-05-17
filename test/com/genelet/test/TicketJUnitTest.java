@@ -6,14 +6,12 @@
 package com.genelet.test;
 
 import com.genelet.framework.Config;
-import com.genelet.framework.Role;
 import com.genelet.framework.Ticket;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -36,7 +34,7 @@ public class TicketJUnitTest {
     
     public TicketJUnitTest() {
         try {
-            c = new Config("C:\\Users\\greet_000\\Desktop\\golang\\src\\genelet\\peter.conf");
+            c = new Config(System.getProperty("user.home")+"/Documents/NetBeansProjects/Genelet/test/com/genelet/test/config.json");
         } catch (IOException ex) {
             Logger.getLogger(ConfigJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         }

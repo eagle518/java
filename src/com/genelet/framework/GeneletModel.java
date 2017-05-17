@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.json.JsonObject;
 
 /**
  *
@@ -29,10 +30,10 @@ public class GeneletModel extends Crud {
     public String PAGENO;
     public String ROWCOUNT;
     public String TOTALNO;
-    public String MAX_PAGENO;
+    public String MAXPAGENO;
     
     public int total_force;   
-    public String FIELD;
+    public String FIELDS;
     public String EMPTIES;
    
     public String current_key;
@@ -51,16 +52,92 @@ public class GeneletModel extends Crud {
     public GeneletModel() {
         super();
     }
+    
+    public GeneletModel(Object obj) {
+        super();
+          
+        JsonObject item = (JsonObject) obj;
+        
+        if (item.containsKey("total_force")) {
+            this.total_force = item.getInt("total_force", 0);
+        }
+        if (item.containsKey("EMPTIES")) {
+            this.EMPTIES = item.getString("EMPTIES", "empties");
+        }
+        if (item.containsKey("FIELDS")) {
+            this.FIELDS = item.getString("FIELDS", "fields");
+        }
+        if (item.containsKey("MAXPAGENO")) {
+            this.MAXPAGENO = item.getString("MAXPAGENO", "maxpageno");
+        }
+        if (item.containsKey("TOTALNO")) {
+            this.TOTALNO = item.getString("TOTALNO", "totalno");
+        }
+        if (item.containsKey("ROWCOUNT")) {
+            this.ROWCOUNT = item.getString("ROWCOUNT", "rowcount");
+        }
+        if (item.containsKey("PAGENO")) {
+            this.PAGENO = item.getString("PAGENO", "pageno");
+        }
+        if (item.containsKey("SORTREVERSE")) {
+            this.SORTREVERSE = item.getString("SORTREVERSE", "sortreverse");
+        }
+        if (item.containsKey("SORTBY")) {
+            this.SORTBY = item.getString("SORTBY", "sortby");
+        }
+    
+        if (item.containsKey("current_table")) {
+            this.current_table = item.getString("current_table");
+        }
+        if (item.containsKey("current_tables")) {
+            this.current_tables = Config.getListTables(item.getJsonArray("current_tables"));
+        }
+        if (item.containsKey("current_key")) {
+            this.current_key = item.getString("current_key");
+        }
+        if (item.containsKey("current_id_auto")) {
+            this.current_id_auto = item.getString("current_id_auto");
+        }
+        if (item.containsKey("current_keys")) {
+            this.current_keys = Config.getList(item.getJsonArray("current_keys"));
+        }
+        if (item.containsKey("key_in")) {
+            this.key_in = Config.getMap(item.getJsonObject("current_key"));
+        }
+        
+        if (item.containsKey("nextpages")) {
+            this.nextpages = Config.getMapListPages(item.getJsonObject("nextpages"));
+        }
+        
+        if (item.containsKey("insert_pars")) {
+            this.insert_pars = Config.getList(item.getJsonArray("insert_pars"));
+        }
+        if (item.containsKey("edit_pars")) {
+            this.edit_pars = Config.getList(item.getJsonArray("edit_pars"));
+        }
+        if (item.containsKey("topics_pars")) {
+            this.topics_pars = Config.getList(item.getJsonArray("topics_pars"));
+        }
+        if (item.containsKey("topics_hash")) {
+            this.topics_hash = Config.getMap(item.getJsonObject("topics_hash"));
+        }
+        if (item.containsKey("update_pars")) {
+            this.update_pars = Config.getList(item.getJsonArray("update_pars"));
+        }
+         if (item.containsKey("insupd_pars")) {
+            this.insupd_pars = Config.getList(item.getJsonArray("insupd_pars"));
+        }
+    }
 
     public GeneletModel(Connection conn) {
         super(conn);
     }
     
     private List<String> filtered_fields(List<String> pars) {
-        if (!this.ARGS.containsKey(FIELD)) { return pars; }
+        if (!this.ARGS.containsKey(FIELDS)) { return pars; }
 
         List<String> out = new ArrayList<>();
-        Object field = ARGS.get(FIELD);
+        Object field = ARGS.get(FIELDS);
         if (field instanceof List) {
             for (Object val0 : (List<Object>) field ) {
                 String val = (String) val0;
@@ -144,7 +221,7 @@ public class GeneletModel extends Crud {
         Object o = ARGS.get(ROWCOUNT);
         int nr = (o instanceof String) ? Integer.parseInt((String)o) :  (int) o;
         ARGS.put(ROWCOUNT, nr);
-        ARGS.put(MAX_PAGENO, (nt-1)/nr + 1);
+        ARGS.put(MAXPAGENO, (nt-1)/nr + 1);
         return null;
     }
     

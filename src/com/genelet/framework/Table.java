@@ -6,6 +6,7 @@
 package com.genelet.framework;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -24,6 +25,14 @@ public class Table {
         this.type = t;
         this.using = u;
         this.on = o;
+    }
+    
+    public Table(Map<String,String>t) {
+        this.name = t.get("name");
+        this.alias = t.get("alias");
+        this.type = t.get("type");
+        this.using = t.get("using");
+        this.on = t.get("on");
     }
     
     public static String table_string(List<Table> tables) {

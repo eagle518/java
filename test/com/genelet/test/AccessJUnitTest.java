@@ -34,7 +34,7 @@ public class AccessJUnitTest {
     
     public AccessJUnitTest() {
         try {
-            c = new Config("C:\\Users\\greet_000\\Desktop\\golang\\src\\genelet\\peter.conf");
+            c = new Config(System.getProperty("user.home")+"/Documents/NetBeansProjects/Genelet/test/com/genelet/test/config.json");
         } catch (IOException ex) {
             Logger.getLogger(ConfigJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         }

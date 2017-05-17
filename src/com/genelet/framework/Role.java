@@ -39,14 +39,14 @@ public class Role  {
         this.Id_name = v.getString("Id_name");
         this.Type_id = v.getInt("Type_id",0);
         this.Is_admin = v.getBoolean("Is_admin",false);
-        this.Attributes = Config.getList(v, "Attributes");
+        this.Attributes = Config.getList(v.getJsonArray("Attributes"));
         this.Coding = v.getString("Coding");
         this.Secret = v.getString("Secret");
         this.Surface = v.getString("Surface");
         this.Length = v.getInt("Length",0);
         this.Duration = v.getInt("Duration");
-        this.Userlist = Config.getList(v, "Userlist");
-        this.Grouplist = Config.getList(v, "Grouplist");
+        this.Userlist = Config.getList(v.getJsonArray("Userlist"));
+        this.Grouplist = Config.getList(v.getJsonArray("Grouplist"));
         this.Logout = v.getString("Logout","/");
         this.Domain = v.getString("Domain","");
         this.Path = v.getString("Path","/");

@@ -56,7 +56,7 @@ public class Config {
         this(get_json(filename));
     }
     
-    private static JsonObject get_json(String filename) throws FileNotFoundException, IOException  {
+    public static JsonObject get_json(String filename) throws FileNotFoundException, IOException  {
         FileReader f = new FileReader( filename );
         JsonReader reader = Json.createReader(f);
         JsonObject json = reader.readObject();
@@ -90,8 +90,8 @@ public class Config {
         this.Plain_provider = json.getString("Plain_provider", "plain");
         this.Google_provider = json.getString("Google_provider", "google");
         
-        this.Db = getList(json, "Db");
-        this.Static = getListList(json, "Static");
+        this.Db = getList(json.getJsonArray("Db"));
+        this.Static = getListList(json.getJsonArray("Static"));
         
         JsonObject actions = json.getJsonObject("Default_actions");
         if (actions != null && !actions.isEmpty()) {
@@ -122,9 +122,8 @@ public class Config {
         }
     }
     
-    public static List<String> getList(JsonObject json, String field) {
+    public static List<String> getList(JsonArray attrs) {
         List<String> list = new ArrayList<>();
-        JsonArray attrs = json.getJsonArray(field);
         if (attrs != null && !attrs.isEmpty()) {
             for (JsonValue a : attrs) {
                 list.add(a.toString().replaceAll("\"", ""));
@@ -133,9 +132,8 @@ public class Config {
         return list;
     }
     
-    public static List<List<Object>> getListList(JsonObject json, String field) {
+    public static List<List<Object>> getListList(JsonArray attrs) {
         List<List<Object>> list = new ArrayList<>();
-        JsonArray attrs = json.getJsonArray(field);
         if (attrs != null && !attrs.isEmpty()) {
             for (JsonValue a : attrs) {
                 if (a != null) {
@@ -157,9 +155,8 @@ public class Config {
         return list;
     }
     
-    public static Map<String,String> getMap(JsonObject json, String field) {
+    public static Map<String,String> getMap(JsonObject object) {
         Map<String,String>hash = new HashMap<>();
-        JsonObject object = json.getJsonObject(field);
         if (object != null && !object.isEmpty()) {
             Set<String>keys = object.keySet();
             for (String key : keys) {
@@ -168,6 +165,68 @@ public class Config {
         }
         return hash;
     }
+    
+    public static Map<String, List<String>> getMapList(JsonObject json) {
+        Map<String, List<String>> hash = new HashMap<>();
+        for (Map.Entry<String, JsonValue> entry: json.entrySet()) {
+            JsonArray jo = (JsonArray)entry.getValue();
+            hash.put(entry.getKey(), getList(jo));
+        }
+        return hash;
+    }
+    
+    public static Map<String, Map<String, List<String>>> getMapMapList(JsonObject json) {
+        Map<String, Map<String, List<String>>> hash = new HashMap<>();
+        for (Map.Entry<String, JsonValue> entry: json.entrySet()) {
+            hash.put(entry.getKey(), getMapList((JsonObject)entry.getValue()));
+        }
+        return hash;
+    }
+    
+    public static List<Table> getListTables(JsonArray json) {
+        List<Table> tables = new ArrayList<>();
+        for (JsonValue a : json) {
+            Map<String, String> hash = new HashMap<>();
+            JsonObject obj = (JsonObject) a;
+            for (Map.Entry<String, JsonValue> entry: obj.entrySet()) {
+                hash.put(entry.getKey(), entry.toString());
+            }
+            tables.add(new Table(hash));
+        }
+        return tables;
+    }
+        
+    public static Map<String, List<Map<String, Object>>> getMapListPages(JsonObject json) {
+        // Object: String, Map<String, String>, Map<String, Object>
+        Map<String, List<Map<String, Object>>> nextpages = new HashMap<>();
+        for (Map.Entry<String, JsonValue> action: json.entrySet()) {
+            List<Map<String, Object>> pages = new ArrayList<>();
+            for (JsonValue jv_page : (JsonArray) action.getValue()) {
+                Map<String, Object> page = new HashMap<>();
+                JsonObject j_page = (JsonObject) jv_page;
+                if (j_page.containsKey("model")) {
+                    page.put("model", j_page.getString("model"));
+                }
+                if (j_page.containsKey("action")) {
+                    page.put("action", j_page.getString("action"));
+                }
+                if (j_page.containsKey("relate_item")) {
+                    page.put("relate_item", getMap(j_page.getJsonObject("relate_item")));
+                }
+                if (j_page.containsKey("manual")) {
+                    Map<String, Object> manual = new HashMap<>();
+                    for (Map.Entry<String, JsonValue> entry: j_page.getJsonObject("manual").entrySet()) {
+                        manual.put(entry.getKey(), (Object) entry.getValue()); 
+                    }
+                    page.put("manual", manual);
+                }
+                pages.add(page);
+            }
+            nextpages.put(action.getKey(), pages);
+        }
+        return nextpages;
+    }
+    
     /**
      * @return the Template
      */

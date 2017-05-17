@@ -129,8 +129,12 @@ public class GeneletServlet extends HttpServlet {
         String who = gate.role_value;
         String tag = gate.chartag_value;
         
+        Map<String,Object> storage = (HashMap<String,Object>) getServletContext().getAttribute("storage");
+        Object c_json = storage.get(obj); 
+        
         Class filterClass = Class.forName(gate.config.getProject_name()+"." + obj + ".Filter");
-        Object filter = filterClass.newInstance();
+        //Object filter = filterClass.newInstance();
+        Object filter = filterClass.getDeclaredConstructor(Object.class).newInstance(c_json);
         System.err.println(gate.config.getProject_name()+"." + obj + ".Filter created");
     
         Map<String,Map<String,List<String>>> actions = (Map<String,Map<String,List<String>>>) Invoke.invokeGet(filterClass, filter, "getActions");
@@ -187,7 +191,8 @@ public class GeneletServlet extends HttpServlet {
         System.err.println("OK preset");
         
         Class modelClass = Class.forName(gate.config.getProject_name()+"." + obj + ".Model");
-        Object model = modelClass.newInstance();
+        //Object model = modelClass.newInstance();
+        Object model = modelClass.getDeclaredConstructor(Object.class).newInstance(c_json);
         Invoke.invokeSet(modelClass, model, "setARGS", Map.class, ARGS);
         System.err.println(gate.config.getProject_name()+"." + obj + ".Model created");
         

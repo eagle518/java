@@ -5,7 +5,6 @@
  */
 package com.genelet.test;
 
-import com.genelet.framework.Crud;
 import com.genelet.framework.GeneletModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,8 +49,8 @@ public class ModelJUnitTest {
         this.model.PAGENO        ="pageno";
         this.model.ROWCOUNT      ="rowcount";
         this.model.TOTALNO       ="totalno";
-        this.model.MAX_PAGENO    ="max_pageno";
-        this.model.FIELD         ="field";
+        this.model.MAXPAGENO    ="max_pageno";
+        this.model.FIELDS         ="field";
         this.model.EMPTIES       ="empties";
     }
     

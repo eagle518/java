@@ -22,88 +22,65 @@ public class GeneClass {
         this.tables = t;
     }
     
-    public String obj_filter(String table, String pk, List<String> nons, String groups) {   
-        String str = "package " + proj + "." + table.replace("_","") + ";" +
-"\n" +
-"\nimport "+proj+"."+firstUpper()+"Filter;" +
-"\nimport java.util.HashMap;" +
-"\nimport java.util.Arrays;" +
-"\nimport java.util.List;" +
-"\nimport java.util.Map;" +
-"\n" +
-"\npublic class Filter extends "+firstUpper()+"Filter {" +
-"\n   public Filter() {" +
-"\n    this.setActions(new HashMap<String, Map<String,List<String>>>(){" +  
-"\n        {" +
-"\n            put(\"startnew\", new HashMap<String, List<String>>(){" +
-"\n                {" +
-"\n                    put(\"options\", Arrays.asList(\"no_db\", \"no_method\"));";
-        if (!"".equals(groups)) {
-            str += "\n                    put(" + groups + ");";
+    public String obj_json(String table, String pk, String ak, List<String> nons, List<String> fields, String groups) {   
+        String str = "{" +
+"\n    \"actions\" : {" +
+"\n            \"startnew\" : {\"options\" : [\"no_db\", \"no_method\"]" + groups + "}," +
+"\n            \"insert\" : {\"validate\" : [\""+ String.join("\",\"", nons) + "\"]}," +
+"\n            \"edit\" : {\"validate\" : [\"" + pk + "\"]}," +
+"\n            \"update\" : {\"validate\" : [\"" + pk + "\"]}," +
+"\n            \"delete\" : {\"validate\" : [\"" + pk + "\"]}," +       
+"\n            \"topics\" : {}" +
+"\n    },";
+        
+        String add = "\"" + String.join("\",\"", fields) + "\"";
+        String edit = add + ",\"" + pk + "\"";
+        if ("".equals(ak)) {
+            add  = edit;
         }
-        str += "" +
-"\n                }" +
-"\n            });" +
-"\n            put(\"insert\", new HashMap<String, List<String>>(){" +
-"\n                {" +
-"\n                    put(\"validate\", Arrays.asList(\""+ String.join("\",\"", nons) + "\"));" +
-"\n                 }" +
-"\n             });" +
-"\n            put(\"edit\", new HashMap<String, List<String>>(){" +
-"\n                {" +
-"\n                    put(\"validate\", Arrays.asList(\"" + pk + "\"));" +
-"\n                }" +
-"\n             });" +
-"\n            put(\"update\", new HashMap<String, List<String>>(){" +
-"\n                {" +
-"\n                    put(\"validate\", Arrays.asList(\"" + pk + "\"));" +
-"\n                 }" +
-"\n             });" +
-"\n            put(\"delete\", new HashMap<String, List<String>>(){" +
-"\n                {" +
-"\n                    put(\"validate\", Arrays.asList(\"" + pk + "\"));" +
-"\n                }" +
-"\n           });" +
-"\n            put(\"topics\", new HashMap<>());" +
-"\n        }" +
-"\n    });" +
-"\n" +    
-"\n    this.setFks(new HashMap<>());" +
-"\n   }" +
-"\n" +
-"\n}";
-      return str;      
-    }             
-    
-    public String obj_model(String table, String pk,  String ak, List<String> fields) {
-        String str = "package " + proj + "." + table.replace("_", "") + ";" +
-"\n" +
-"\nimport "+proj+"."+firstUpper()+"Model;"+
-"\nimport java.sql.SQLException;" +
-"\nimport java.util.Arrays;" +              
-"\nimport java.util.ArrayList;" +
-"\nimport java.util.List;" +
-"\nimport java.util.Map;" +
-"\n" +
-"\npublic class Model extends "+firstUpper()+"Model {" +
-"\npublic Model() {" +
-"\n        List<String> adds = Arrays.asList(\"" + String.join("\",\"", fields) + "\");" +
-"\n    insert_pars = new ArrayList<>(adds);";
-        if ("".equals(ak)) { 
-            str += "\n    insert_pars.add(\"" + pk + "\");";
+
+        str += "\n" +
+"\n        \"insert_pars\" : [" + add + "]," + 
+"\n        \"update_pars\" : [" + edit + "]," +
+"\n        \"topics_pars\" : [" + edit + "]," +
+"\n        \"edit_pars\" : [" + edit + "]," +                
+"\n        \"current_table\" : \"" + table + "\"," +
+"\n        \"current_key\" : \"" + pk + "\"";
+        if (!("".equals(ak))) {
+            str += "," +
+"\n        \"current_id_auto\" : \"" + ak + "\"";
         }
-        str += "\n    update_pars = new ArrayList<>(adds);\n    update_pars.add(\"" + pk + "\");" +
-"\n    topics_pars = new ArrayList<>(adds);\n    topics_pars.add(\"" + pk + "\");" +
-"\n    edit_pars = new ArrayList<>(adds);\n    edit_pars.add(\"" + pk + "\");" +
-"\n    current_table  = \"" + table + "\";" +
-"\n    current_key    = \"" + pk + "\";" +
-"\n    current_id_auto= \"" + pk + "\";" +
-"\n}" +
-"\n" +
+        str += "\n" + 
 "\n}";
         return str;
     }
-     
+    
+    public String obj_filter(String table) {
+        String str = "package " + proj + "." + table.replace("_","") + ";" +
+"\n" +
+"\nimport "+proj+"."+firstUpper()+"Filter;" +
+"\n" +
+"\npublic class Filter extends "+firstUpper()+"Filter {" +
+"\n   public Filter(Object item) {" +
+"\n        super(item);" +
+"\n   }" +
+"\n}";
+      return str;          
+    }
+    
+    public String obj_model(String table) {
+                String str = "package " + proj + "." + table.replace("_","") + ";" +
+"\n" +
+"\nimport "+proj+"."+firstUpper()+"Model;" +
+"\n" +
+"\npublic class Model extends "+firstUpper()+"Model {" +
+"\n   public Model(Object item) {" +
+"\n        super(item);" +
+"\n   }" +
+"\n}";
+      return str;     
+    }
+    
     public String servlet() {
         return "package "+proj+";" + 
 "\n" +
@@ -119,7 +96,11 @@ public class GeneClass {
         String str = "package "+proj+";"+
 "\n" +
 "\nimport com.genelet.framework.Config;" +
+"\nimport java.io.File;" +
 "\nimport java.io.IOException;" +
+"\nimport java.util.HashMap;" +
+"\nimport java.util.Map;" +
+"\nimport javax.json.JsonObject;" +
 "\nimport java.util.logging.Level;" +
 "\nimport java.util.logging.Logger;" +
 "\nimport javax.servlet.ServletContext;" +
@@ -134,6 +115,23 @@ public class GeneClass {
 "\n    try {" +
 "\n        Config config = new Config(f);" +
 "\n        sc.setAttribute(\"config\", config);" +
+"\n" +        
+"\n        Map<String, Object> storage = new HashMap<>();" +
+"\n        String doc_root = config.getDocument_root();" +
+"\n        doc_root = doc_root.substring(0,doc_root.length()-3) + \"src\";" +
+"\n        File folder = new File(doc_root+\"/" + proj + "\");" +
+"\n        for (File component : folder.listFiles()) {" +
+"\n            if (component.isDirectory()) {" +
+"\n                String name = component.getPath()+\"/component.json\";" +
+"\n                System.err.println(name);" +
+"\n                File var = new File(name);" +
+"\n                if (var.exists() && var.isFile()) {" +
+"\n                    JsonObject loc = Config.get_json(name);" +
+"\n                    storage.put(component.getName(), loc);" +
+"\n                }" +
+"\n            }" +
+"\n        }" +
+"\n        sc.setAttribute(\"storage\", storage);" +
 "\n    } catch (IOException ex) {" +
 "\n        Logger.getLogger(MyprojectServletListener.class.getName()).log(Level.SEVERE, null, ex);" +
 "\n    }" +                     
@@ -151,9 +149,12 @@ public class GeneClass {
     public String filter() {
         return "package "+proj+";" +
 "\n"+
-"\nimport com.genelet.framework.GeneletFilter;" +
+"\nimport com.genelet.framework.GeneletFilter;" +            
 "\n" +
 "\npublic class "+firstUpper()+"Filter extends GeneletFilter {" +
+"\n   public " + firstUpper()+"Filter(Object item) {" +
+"\n    super(item);" +
+"\n   }" +          
 "\n}";
     }
     
@@ -163,17 +164,8 @@ public class GeneClass {
 "\nimport com.genelet.framework.GeneletModel;" +
 "\n" +
 "\npublic class "+firstUpper()+"Model extends GeneletModel {" +
-"\n   public " + firstUpper()+"Model() {" +
-"\n    super();" +
-"\n    this.SORTBY      =\"sortby\";" +
-"\n    this.SORTREVERSE =\"sortreverse\";" +
-"\n    this.PAGENO      =\"pageno\";" +
-"\n    this.ROWCOUNT    =\"rowcount\";" +
-"\n    this.TOTALNO     =\"totalno\";" +
-"\n    this.MAX_PAGENO  =\"max_pageno\";" +
-"\n    this.FIELD       =\"field\";" +
-"\n    this.EMPTIES     =\"empties\";" +
-"\n    this.total_force = 0;" +
+"\n   public " + firstUpper()+"Model(Object item) {" +
+"\n      super(item);" +
 "\n   }" +
 "\n}";
     }

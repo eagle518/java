@@ -1,0 +1,105 @@
+{
+	"Document_root" : "aa",
+	"Script_name" : "bb",
+	"Pubrole" : "cc",
+	"Template"  : "ee",
+	"Action_name":"action",
+	"Default_action":"dashboard",
+	"Role_name":"role",
+	"Tag_name":"tag",
+	"Provider_name":"provider",
+	"Callback_name": "callback",
+	"Chartags" : {
+		"e":{
+			"Content_type":"text/html; charset=\"UTF-8\"",
+			"Short":"html"
+		},
+		"xml":{
+			"Content_type":"application/xml; charset=\"UTF-8\"",
+			"Short":"xml",
+			"Challenge":"challenge",
+			"Logged":"logged",
+			"Logout":"logout",
+			"Failed":"failed",
+			"Case":2
+		},
+		"json":{
+			"Content_type":"application/json; charset=\"UTF-8\"",
+			"Short":"json",
+			"Challenge":"challenge",
+			"Logged":"logged",
+			"Logout":"logout",
+			"Failed":"failed",
+			"Case":1
+		}
+	},
+
+	"Db" : ["mysql", "eightran_goto:12pass34@/wavelet", "ccc"],
+
+	"Blks" : {
+		"smail" : {
+			"Username":"AKIAISS2ENP3J4L6SV2Q",
+			"Password":"Am7hgK+/B5eSaC1/6zd3cHFjFqgQXTw73fq7mGnR65H5",
+			"Address":"email-smtp.us-west-2.amazonaws.com:465",
+			"From":"peter@greetingland.com",
+			"ses_iam" : "ses-smtp-user.20140417-074414'",
+			"ses_account" : "AKIAISS2ENP3J4L6SV2Q",
+			"ses_password" : "Am7hgK+/B5eSaC1/6zd3cHFjFqgQXTw73fq7mGnR65H5"
+		},
+		"sms" : {
+			"Server1" : "cccc",
+			"From1" : "dddd"
+		}
+	},
+
+	"Roles" : {
+		"m" : {
+			"Id_name" : "m_id",
+			"Is_admin" : false,
+			"Attributes" : ["email", "m_id", "first_name", "last_name", "address", "company"],
+			"Entitytype_id" : 1,
+
+			"Surface" : "mc",
+			"Domain" : "genelet.com",
+			"Duration" : 360000,
+			"Max_age"  : 360000,
+			"Secret" : "w76lvjnrsksaudhrde0ug3wv5k5nywj6ifv5zvy5qjet94po5j",
+			"Coding" : "jkfjowc29xgzymzg3dj5fq2w8z9vvrmb1owvnp9z4k96ttgx0r",
+			"Userlist" : ["x1", "x2", "x3", "hello", "a"],
+			"Login" : "login",
+			"Logout" : "/",
+			"Issuers" : {
+				"db" : {
+					"Default": true,
+					"Screen" : 0,
+					"Sql" : "select email, m_id, first_name, last_name, address, company from user where email=? and passwd=?",
+					"Sql_as" : "proc_member_as",
+					"Credential" : ["email", "passwd", "direct", "mc"],
+					"Provider_pars" : {"Def_login":"hello", "Def_password":"world"}
+				},
+				"Facebook" : {
+					"Provider_pars" : {
+						"client_id" : "375194359188680",
+						"client_secret" : "cd36580214b5482be878f9d40be2f5e1",
+						"auth_par" : "X-Forwarded-User"
+					},
+					"Sql" : "set_facebook",
+					"In_pars" : ["id", "first_name", "last_name", "link", "access_token", "name", "expires"],
+					"Out_pars" : ["found", "member_id", "email", "first_name", "last_name", "membertype_id", "status_id", "hold", "counts"]
+				}
+			}
+		}
+	},
+
+	"Errors" : {
+		"2000": "some1", 
+		"3001": "some2", 
+		"3002": "some3"
+	},
+
+	"Log" : {
+		"Minlevel" : "Emergency",
+		"Maxlevel" : "Info",
+		"Filename" : "/tmp/debug.log"
+	}
+}
